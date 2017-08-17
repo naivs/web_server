@@ -17,7 +17,7 @@ public class Main {
         context.addServlet(new ServletHolder(frontend),"/sessions");
 
         ResourceHandler resourceHandler = new ResourceHandler();
-        resourceHandler.setResourceBase("recources/index.html");
+        resourceHandler.setResourceBase("resources");
 
         HandlerList handlers = new HandlerList();
         handlers.setHandlers(new Handler[]{resourceHandler, context});

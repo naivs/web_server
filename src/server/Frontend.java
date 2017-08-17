@@ -9,6 +9,7 @@ import java.io.IOException;
 public class Frontend extends HttpServlet {
 
     private String login = "";
+    private String password = "";
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -17,6 +18,9 @@ public class Frontend extends HttpServlet {
 
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        login = req.getParameter("login");
+        password = req.getParameter("pass");
 
+        resp.getWriter().write("Hello " + login + "!!!");
     }
 }
