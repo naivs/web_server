@@ -11,8 +11,7 @@ public class Main {
         Frontend frontend = new Frontend();
 
         Server server = new Server(8080);
-        ServletContextHandler context =
-                new ServletContextHandler(ServletContextHandler.SESSIONS);
+        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
         server.setHandler(context);
         context.addServlet(new ServletHolder(frontend),"/home");
