@@ -1,6 +1,9 @@
 package server;
 
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.HandlerList;
+import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
@@ -10,11 +13,17 @@ public class Main {
 
         Frontend frontend = new Frontend();
 
-        Server server = new Server(8080);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        context.addServlet(new ServletHolder(frontend),"/sessions");
 
-        server.setHandler(context);
-        context.addServlet(new ServletHolder(frontend),"/home");
+        ResourceHandler resourceHandler = new ResourceHandler();
+        resourceHandler.setResourceBase("recources/index.html");
+
+        HandlerList handlers = new HandlerList();
+        handlers.setHandlers(new Handler[]{resourceHandler, context});
+
+        Server server = new Server(8080);
+        server.setHandler(handlers);
 
         try {
             server.start();
