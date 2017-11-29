@@ -10,15 +10,8 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
 
-/**
- * @author v.chibrikov
- *         <p>
- *         Пример кода для курса на https://stepic.org/
- *         <p>
- *         Описание курса и лицензия: https://github.com/vitaly-chibrikov/stepic_java_webserver
- */
 public class PageGenerator {
-    private static final String HTML_DIR = "templates";
+    private static final String HTML_DIR = "resources/pages";
 
     private static PageGenerator pageGenerator;
     private final Configuration cfg;
@@ -35,7 +28,7 @@ public class PageGenerator {
             Template template = cfg.getTemplate(HTML_DIR + File.separator + filename);
             template.process(data, stream);
         } catch (IOException | TemplateException e) {
-            e.printStackTrace();
+            System.err.println("Templater exception: " + e.getMessage());
         }
         return stream.toString();
     }
