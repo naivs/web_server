@@ -1,5 +1,6 @@
 package servlets;
 
+import accounts.AccountService;
 import templater.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -12,25 +13,35 @@ import java.util.Map;
 
 public class RootRequestsServlet extends HttpServlet {
 
+    private final AccountService accountService;
+
+    public RootRequestsServlet(AccountService accountService) {
+        this.accountService = accountService;
+    }
+
     @Override
     public void doGet(HttpServletRequest request,
-                      HttpServletResponse response) throws ServletException, IOException {
-
-        Map<String, Object> pageVariables = createPageVariablesMap(request);
-        pageVariables.put("message", "");
+            HttpServletResponse response) throws ServletException, IOException {
         
-        response.getWriter().println(PageGenerator.instance().getPage("index.html", pageVariables));
-        response.setContentType("text/html;charset=utf-8");
-        response.setStatus(HttpServletResponse.SC_OK);
+        Map<String, Object> pageVariables = createPageVariablesMap(request);
+        // check user login
+        if (accountService.isLogin(request.getSession().getId())) {
+            response.getWriter().println(PageGenerator.instance().getPage("index.html", pageVariables));
+            response.setContentType("text/html;charset=utf-8");
+            response.setStatus(HttpServletResponse.SC_OK);
+        } else {
+            response.sendRedirect("/signin");
+            response.setContentType("text/html;charset=utf-8");
+            response.setStatus(HttpServletResponse.SC_OK);
+        }
     }
 
     @Override
     public void doPost(HttpServletRequest request,
-                       HttpServletResponse response) throws ServletException, IOException {
+            HttpServletResponse response) throws ServletException, IOException {
         Map<String, Object> pageVariables = createPageVariablesMap(request);
 
         String message = request.getParameter("message");
-
         response.setContentType("text/html;charset=utf-8");
 
         if (message == null || message.isEmpty()) {

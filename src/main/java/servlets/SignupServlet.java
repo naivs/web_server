@@ -29,6 +29,7 @@ public class SignupServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
+
         response.getWriter().println(PageGenerator.instance().getPage("signup.html"));
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
@@ -41,21 +42,20 @@ public class SignupServlet extends HttpServlet {
 
         String login = request.getParameter("login");
 
-        if (accountService.contains(login)) {
+        if (accountService.isLogin(login)) {
             response.setStatus(HttpServletResponse.SC_CONFLICT);
             response.getWriter().println(String.format("%s is already registered!", login));
             return;
         }
-        //String password = request.getParameter("pass");
-        //String email = request.getParameter("email");
+        
+        String password = request.getParameter("password");
+        String email = request.getParameter("email");
 
-        accountService.addNewUser(new UserProfile(login));
-
-//        if (email == null) {
-//            accountService.addNewUser(new UserProfile(login, password, login + "@gmail.com"));
-//        } else {
-//            accountService.addNewUser(new UserProfile(login, password, email));
-//        }
+        if (email == null) {
+            accountService.addNewUser(new UserProfile(login, password, login + "@default.com"));
+        } else {
+            accountService.addNewUser(new UserProfile(login, password, email));
+        }
         response.setStatus(HttpServletResponse.SC_OK);
         response.getWriter().println("Registered");
     }
