@@ -2,7 +2,7 @@ package main;
 
 import accounts.AccountService;
 import accounts.UserProfile;
-import dbService.DBService;
+import dbService.DBServiceImpl;
 import dbService.dataSets.UsersDataSet;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
@@ -10,6 +10,7 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import services.DBService;
 import servlets.RootRequestsServlet;
 import servlets.MirrorRequestServlet;
 import servlets.SigninServlet;
@@ -19,7 +20,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        DBService dbService = new DBService();
+        DBService dbService = new DBServiceImpl();
         dbService.printConnectInfo();
         
         AccountService accountService = new AccountService(dbService);

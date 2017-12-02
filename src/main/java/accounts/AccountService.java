@@ -1,9 +1,9 @@
 package accounts;
 
 import dbService.DBException;
-import dbService.DBService;
 import java.util.HashMap;
 import java.util.Map;
+import services.DBService;
 
 public class AccountService {
 
