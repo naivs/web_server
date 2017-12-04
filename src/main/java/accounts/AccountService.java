@@ -35,8 +35,12 @@ public class AccountService {
             System.err.println("Can't add user account to database! " + ex.getMessage());
         }
     }
+    
+    public UserAccount getUserBySessionId(String sessionId) {
+        return sessionIdToProfile.get(sessionId);
+    }
 
-    public UserAccount getUserAccount(String login) {
+    public UserAccount getUserByLogin(String login) {
         return loginToProfile.get(login);
     }
     

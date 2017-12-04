@@ -38,7 +38,7 @@ public class UsersDAOHibernate {
         return (ArrayList<UserAccount>) criteria.list();
     }
 
-    public long insertUser(UserAccount usersDataSet) throws HibernateException {
-        return (Long) session.save(usersDataSet);
+    public long insertUser(UserAccount userAccount) throws HibernateException {
+        return (Long) session.save(userAccount);
     }
 }

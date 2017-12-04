@@ -17,7 +17,7 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket;
  */
 @WebSocket
 public class ChatWebSocket {
-    private ChatService chatService;
+    private final ChatService chatService;
     private Session session;
 
     public ChatWebSocket(ChatService chatService) {

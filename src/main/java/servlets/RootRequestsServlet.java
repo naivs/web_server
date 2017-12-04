@@ -22,10 +22,10 @@ public class RootRequestsServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        
-        Map<String, Object> pageVariables = createPageVariablesMap(request);
+
         // check user login
         if (accountService.isLogin(request.getSession().getId())) {
+            Map<String, Object> pageVariables = createPageVariablesMap(request);
             response.getWriter().println(PageGenerator.instance().getPage("index.html", pageVariables));
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_OK);
@@ -54,13 +54,16 @@ public class RootRequestsServlet extends HttpServlet {
         response.getWriter().println(PageGenerator.instance().getPage("index.html", pageVariables));
     }
 
-    private static Map<String, Object> createPageVariablesMap(HttpServletRequest request) {
+    private Map<String, Object> createPageVariablesMap(HttpServletRequest request) {
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("method", request.getMethod());
-        pageVariables.put("URL", request.getRequestURL().toString());
+        pageVariables.put("URL", request.getLocalName() + ":" + request.getServerPort());
         //pageVariables.put("pathInfo", request.getPathInfo());
         pageVariables.put("sessionId", request.getSession().getId());
         pageVariables.put("parameters", request.getParameterMap().toString());
+
+        pageVariables.put("login", accountService.getUserBySessionId(
+                request.getSession().getId()).getLogin());
         return pageVariables;
     }
 }

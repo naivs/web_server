@@ -34,6 +34,7 @@ public class SigninServlet extends HttpServlet {
         //check active session
         if(accountService.isLogin(request.getSession().getId())) {
             response.getWriter().println("You are already loggin in!");
+            response.sendRedirect("/");
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_OK);
         } else {
@@ -57,7 +58,7 @@ public class SigninServlet extends HttpServlet {
             return;
         }
 
-        UserAccount userAccount = accountService.getUserAccount(login);
+        UserAccount userAccount = accountService.getUserByLogin(login);
         if (userAccount != null && password.equals(userAccount.getPassword())) {
             response.setContentType("text/html;charset=utf-8");
             accountService.addSession(request.getSession().getId(), userAccount.getLogin());
@@ -67,6 +68,7 @@ public class SigninServlet extends HttpServlet {
             response.setContentType("text/html;charset=utf-8");
             response.getWriter().println(json);
             response.getWriter().println("Authorized: " + login);
+            response.sendRedirect("/");
             response.setStatus(HttpServletResponse.SC_OK);
             return;
         }
@@ -82,8 +84,8 @@ public class SigninServlet extends HttpServlet {
                          HttpServletResponse response) throws ServletException, IOException {
         
         String sessionId = request.getSession().getId();
-        UserProfile profile = accountService.getUserBySessionId(sessionId);
-        if (profile == null) {
+        UserAccount account = accountService.getUserBySessionId(sessionId);
+        if (account == null) {
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         } else {

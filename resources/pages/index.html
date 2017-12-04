@@ -1,25 +1,54 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
     <head>
         <meta charset="UTF-8"/>
-        <title>Hello</title>
+        <title>Chat</title>
+        <script type="text/javascript">
+            var ws;
+
+            function init() {
+            var pathname = window.location.pathname;
+            ws = new WebSocket("ws://${URL}/chat");
+            ws.onopen = function (event) {
+
+            }
+            ws.onmessage = function (event) {
+            var $textarea = document.getElementById("messages");
+            $textarea.value = $textarea.value + event.data + "\n";
+            }
+            ws.onclose = function (event) {
+
+            }
+            };
+
+            function sendMessage() {
+            var messageField = document.getElementById("message");
+            var userNameField = document.getElementById("username");
+            var message = userNameField.value + ":" + messageField.value;
+            ws.send(message);
+            messageField.value = '';
+            }
+        </script>
     </head>
-    <body>
-        <p>Hello</p>
+    <body onload="init();">
+        <div id="body">
+            <div id="menu">
+                <p class="welcome">
+                    Welcome, <input id="username" value=${login}>
+                </p>
 
-        <form action="/signin" method="POST">
-            Login: <input type="text" name="login"/>
-            Password: <input type="password" name="password"/>
-            <input type="submit" value="Sign in"/>
-        </form>
+                <div style="clear: both"></div>
+            </div>
 
-        <form action="/signup" method="POST">
-            Login: <input type="text" name="login"/>
-            Password: <input type="password" name="password"/>
-            E-Mail: <input type="email" name="email"/>
-            <input type="submit" value="Sign up"/>
-        </form>
-        
+            <div id="chatbox">
+                <textarea id="messages" rows="20" cols="50" readonly="readonly"></textarea>
+            </div>
+
+            <form name="message" action="">
+                <input name="usermsg" type="text" id="message" size="40"/>
+                <input type="button" name="submitmsg" value="Send..." onclick="sendMessage();"/>
+            </form>
+        </div>
         <br/>
         <br/>
         <p>======= information =======</p>

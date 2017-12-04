@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Ivan Naumov
  */
 public class ChatService {
-    private Set<ChatWebSocket> webSockets;
+    private final Set<ChatWebSocket> webSockets;
 
     public ChatService() {
         this.webSockets = Collections.newSetFromMap(new ConcurrentHashMap<>());
