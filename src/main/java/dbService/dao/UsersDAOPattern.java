@@ -1,38 +1,39 @@
 package dbService.dao;
 
-import accounts.UserProfile;
-import dbService.dataSets.UsersDataSet;
+import accounts.UserAccount;
 import dbService.executor.Executor;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class UsersDAO {
+public class UsersDAOPattern {
 
     private Executor executor;
 
-    public UsersDAO(Connection connection) {
+    public UsersDAOPattern(Connection connection) {
         this.executor = new Executor(connection);
     }
 
-    public UsersDataSet get(long id) throws SQLException {
+    public UserAccount get(long id) throws SQLException {
         return executor.execQuery("select * from users where id=" + id, result -> {
             result.next();
-            return new UsersDataSet(result.getLong(1), result.getString(2));
+            return new UserAccount(result.getLong("id"), result.getString("login"),
+            result.getString("password"), result.getString("email"));
         });
     }
     
-    public ArrayList<UserProfile> getUsers() throws SQLException {
+    public ArrayList<UserAccount> getUsers() throws SQLException {
         return executor.execQuery("select * from users", (resultSet) -> {
-            ArrayList<UserProfile> userProfiles = new ArrayList<>();
+            ArrayList<UserAccount> userSets = new ArrayList<>();
             while(resultSet.next()) {
+                long id = resultSet.getLong("id");
                 String login = resultSet.getString("login");
                 String password = resultSet.getString("password");
                 String email = resultSet.getString("email");
-                userProfiles.add(new UserProfile(login, password, email));
+                userSets.add(new UserAccount(id, login, password, email));
             }
-            return userProfiles;
+            return userSets;
         });
     }
 
@@ -43,9 +44,9 @@ public class UsersDAO {
         });
     }
 
-    public void insertUser(UserProfile userProfile) throws SQLException {
-        executor.execUpdate(
-                "insert into users (login, password, email) values ('" + userProfile.getLogin() + "', '" + userProfile.getPass() + "', '" + userProfile.getEmail() + "')");
+    public void insertUser(UserAccount userAccount) throws SQLException {
+        executor.execUpdate("insert into users (login, password, email) values ('" + userAccount.getLogin() + "', '" +
+                        userAccount.getPassword() + "', '" + userAccount.getEmail() + "')");
     }
 
     public void createTable() throws SQLException {

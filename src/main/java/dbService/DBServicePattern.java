@@ -1,47 +1,46 @@
 package dbService;
 
-import accounts.UserProfile;
-import dbService.dao.UsersDAO;
-import dbService.dataSets.UsersDataSet;
+import dbService.dao.UsersDAOPattern;
+import accounts.UserAccount;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import services.DBService;
 
-public class DBServiceImpl implements DBService {
+public class DBServicePattern implements DBService {
     private final Connection connection;
 
-    public DBServiceImpl() {
+    public DBServicePattern() {
         this.connection = MySQLConnection.instance();
     }
 
     @Override
-    public UsersDataSet getUser(long id) throws DBException {
+    public UserAccount getUser(long id) throws DBException {
         try {
-            return (new UsersDAO(connection).get(id));
+            return (new UsersDAOPattern(connection).get(id));
         } catch (SQLException e) {
             throw new DBException(e);
         }
     }
     
     @Override
-    public ArrayList<UserProfile> getUsers() throws DBException {
+    public ArrayList<UserAccount> getUsers() throws DBException {
         try {
-            return new UsersDAO(connection).getUsers();
+            return new UsersDAOPattern(connection).getUsers();
         } catch (SQLException ex) {
             throw new DBException(ex);
         }
     }
 
     @Override
-    public long addUser(UserProfile userProfile) throws DBException {
+    public long addUser(UserAccount userAccount) throws DBException {
         try {
             connection.setAutoCommit(false);
-            UsersDAO dao = new UsersDAO(connection);
+            UsersDAOPattern dao = new UsersDAOPattern(connection);
             dao.createTable();
-            dao.insertUser(userProfile);
+            dao.insertUser(userAccount);
             connection.commit();
-            return dao.getUserId(userProfile.getLogin());
+            return dao.getUserId(userAccount.getLogin());
         } catch (SQLException e) {
             try {
                 connection.rollback();
@@ -58,7 +57,7 @@ public class DBServiceImpl implements DBService {
 
     @Override
     public void cleanUp() throws DBException {
-        UsersDAO dao = new UsersDAO(connection);
+        UsersDAOPattern dao = new UsersDAOPattern(connection);
         try {
             dao.dropTable();
         } catch (SQLException e) {

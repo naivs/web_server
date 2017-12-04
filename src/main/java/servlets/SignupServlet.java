@@ -6,7 +6,6 @@
 package servlets;
 
 import accounts.AccountService;
-import accounts.UserProfile;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -47,15 +46,15 @@ public class SignupServlet extends HttpServlet {
             response.getWriter().println(String.format("%s is already registered!", login));
             return;
         }
-        
+
         String password = request.getParameter("password");
         String email = request.getParameter("email");
 
         if (email == null) {
-            accountService.addNewUser(new UserProfile(login, password, login + "@default.com"));
-        } else {
-            accountService.addNewUser(new UserProfile(login, password, email));
+            email = login + "@default.com";
         }
+        accountService.addNewUser(login, password, email);
+
         response.setStatus(HttpServletResponse.SC_OK);
         response.getWriter().println("Registered");
     }

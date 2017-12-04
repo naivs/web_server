@@ -7,8 +7,8 @@ import services.DBService;
 
 public class AccountService {
 
-    private final Map<String, UserProfile> loginToProfile;
-    private final Map<String, UserProfile> sessionIdToProfile;
+    private final Map<String, UserAccount> loginToProfile;
+    private final Map<String, UserAccount> sessionIdToProfile;
     private final DBService dbService;
 
     public AccountService(DBService dbService) {
@@ -18,33 +18,38 @@ public class AccountService {
 
         //load profiles from database
         try {
-            for (UserProfile userProfile : dbService.getUsers()) {
-                loginToProfile.put(userProfile.getLogin(), userProfile);
+            for (UserAccount userAccount : dbService.getUsers()) {
+                loginToProfile.put(userAccount.getLogin(), userAccount);
             }
         } catch (DBException ex) {
-            System.err.println("Can't load user profiles from database!" + ex.getMessage());
+            System.err.println("Can't load user accounts from database!" + ex.getMessage());
         }
     }
 
-    public void addNewUser(UserProfile userProfile) {
-        loginToProfile.put(userProfile.getLogin(), userProfile);
+    public void addNewUser(String login, String password, String email) {
+        UserAccount userAccount = new UserAccount(login, password, email);
+        loginToProfile.put(login, userAccount);
         try {
-            dbService.addUser(userProfile);
+            dbService.addUser(userAccount);
         } catch (DBException ex) {
-            System.err.println("Can't add user profile to database! " + ex.getMessage());
+            System.err.println("Can't add user account to database! " + ex.getMessage());
         }
     }
 
-    public UserProfile getUserByLogin(String login) {
+    public UserAccount getUserAccount(String login) {
         return loginToProfile.get(login);
     }
-
-    public UserProfile getUserBySessionId(String sessionId) {
-        return sessionIdToProfile.get(sessionId);
+    
+    public String getUserPassword(String login) {
+        return loginToProfile.get(login).getPassword();
+    }
+    
+    public String getUserEmail(String login) {
+        return loginToProfile.get(login).getEmail();
     }
 
-    public void addSession(String sessionId, UserProfile userProfile) {
-        sessionIdToProfile.put(sessionId, userProfile);
+    public void addSession(String sessionId, String login) {
+        sessionIdToProfile.put(sessionId, loginToProfile.get(login));
     }
 
     public void deleteSession(String sessionId) {

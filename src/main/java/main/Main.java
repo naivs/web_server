@@ -1,9 +1,9 @@
 package main;
 
 import accounts.AccountService;
-import accounts.UserProfile;
-import dbService.DBServiceImpl;
-import dbService.dataSets.UsersDataSet;
+import dbService.DBServiceHibernate;
+import dbService.DBServicePattern;
+import accounts.UserAccount;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -15,12 +15,13 @@ import servlets.RootRequestsServlet;
 import servlets.MirrorRequestServlet;
 import servlets.SigninServlet;
 import servlets.SignupServlet;
+import servlets.WebSocketChatServlet;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        DBService dbService = new DBServiceImpl();
+        DBService dbService = new DBServiceHibernate();
         dbService.printConnectInfo();
         
         AccountService accountService = new AccountService(dbService);
@@ -30,6 +31,7 @@ public class Main {
         context.addServlet(new ServletHolder(new SignupServlet(accountService)), "/signup");
         context.addServlet(new ServletHolder(new SigninServlet(accountService)), "/signin");
         context.addServlet(new ServletHolder(new MirrorRequestServlet()), "/mirror");
+        context.addServlet(new ServletHolder(new WebSocketChatServlet()), "/chat");
 
 //        ResourceHandler resource_handler = new ResourceHandler();
 //        resource_handler.setResourceBase("resources/pages/");

@@ -5,9 +5,8 @@
  */
 package services;
 
-import accounts.UserProfile;
 import dbService.DBException;
-import dbService.dataSets.UsersDataSet;
+import accounts.UserAccount;
 import java.util.ArrayList;
 
 /**
@@ -16,11 +15,11 @@ import java.util.ArrayList;
  */
 public interface DBService {
     
-    public UsersDataSet getUser(long id) throws DBException;
+    public UserAccount getUser(long id) throws DBException;
     
-    public ArrayList<UserProfile> getUsers() throws DBException;
+    public ArrayList<UserAccount> getUsers() throws DBException;
     
-    public long addUser(UserProfile userProfile) throws DBException;
+    public long addUser(UserAccount userAccount) throws DBException;
     
     public void cleanUp() throws DBException;
     

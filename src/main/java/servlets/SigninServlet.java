@@ -6,7 +6,7 @@
 package servlets;
 
 import accounts.AccountService;
-import accounts.UserProfile;
+import accounts.UserAccount;
 import com.google.gson.Gson;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -57,13 +57,13 @@ public class SigninServlet extends HttpServlet {
             return;
         }
 
-        UserProfile userProfile = accountService.getUserByLogin(login);
-        if (userProfile != null && password.equals(userProfile.getPass())) {
+        UserAccount userAccount = accountService.getUserAccount(login);
+        if (userAccount != null && password.equals(userAccount.getPassword())) {
             response.setContentType("text/html;charset=utf-8");
-            accountService.addSession(request.getSession().getId(), userProfile);
+            accountService.addSession(request.getSession().getId(), userAccount.getLogin());
             
             Gson gson = new Gson();
-            String json = gson.toJson(userProfile);
+            String json = gson.toJson(userAccount);
             response.setContentType("text/html;charset=utf-8");
             response.getWriter().println(json);
             response.getWriter().println("Authorized: " + login);
