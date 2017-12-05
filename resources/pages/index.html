@@ -7,7 +7,6 @@
             var ws;
 
             function init() {
-            var pathname = window.location.pathname;
             ws = new WebSocket("ws://${URL}/chat");
             ws.onopen = function (event) {
 
@@ -27,14 +26,14 @@
             var message = userNameField.value + ":" + messageField.value;
             ws.send(message);
             messageField.value = '';
-            }
+            };
         </script>
     </head>
     <body onload="init();">
         <div id="body">
             <div id="menu">
                 <p class="welcome">
-                    Welcome, <input id="username" value=${login}>
+                    Welcome, <input id="username" value="${login}"/>
                 </p>
 
                 <div style="clear: both"></div>

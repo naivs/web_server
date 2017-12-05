@@ -21,7 +21,7 @@ public class ChatService {
     }
 
     public void sendMessage(String data) {
-        for (ChatWebSocket user : webSockets) {
+    for (ChatWebSocket user : webSockets) {
             try {
                 user.sendString(data);
             } catch (Exception e) {
