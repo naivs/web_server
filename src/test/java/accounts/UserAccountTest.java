@@ -20,9 +20,9 @@ public class UserAccountTest {
     
     private UserAccount instance;
             
-    private String login = "ivan";
-    private String password = "password123_";
-    private String email = "ivan@gmail.com";
+    private final String login = "ivan";
+    private final String password = "password123_";
+    private final String email = "ivan@gmail.com";
     
     public UserAccountTest() {
     }
@@ -37,7 +37,7 @@ public class UserAccountTest {
     
     @Before
     public void setUp() {
-        System.out.println("getLogin");
+        System.out.println("setting up test...");
         instance = new UserAccount(login, password, email);
     }
     
@@ -61,12 +61,9 @@ public class UserAccountTest {
     @Test
     public void testGetPassword() {
         System.out.println("getPassword");
-        UserAccount instance = new UserAccount();
-        String expResult = "";
+        String expResult = password;
         String result = instance.getPassword();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -75,12 +72,9 @@ public class UserAccountTest {
     @Test
     public void testGetEmail() {
         System.out.println("getEmail");
-        UserAccount instance = new UserAccount();
-        String expResult = "";
+        String expResult = email;
         String result = instance.getEmail();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -90,23 +84,19 @@ public class UserAccountTest {
     public void testSetId() {
         System.out.println("setId");
         long id = 0L;
-        UserAccount instance = new UserAccount();
         instance.setId(id);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(id, instance.getId());
     }
-
+    
     /**
      * Test of setLogin method, of class UserAccount.
      */
     @Test
     public void testSetLogin() {
         System.out.println("setLogin");
-        String login = "";
-        UserAccount instance = new UserAccount();
-        instance.setLogin(login);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String loginTest = "test";
+        instance.setLogin(loginTest);
+        assertEquals(loginTest, instance.getLogin());
     }
 
     /**
@@ -115,11 +105,9 @@ public class UserAccountTest {
     @Test
     public void testSetPassword() {
         System.out.println("setPassword");
-        String password = "";
-        UserAccount instance = new UserAccount();
-        instance.setPassword(password);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String passwordTest = "123test123_";
+        instance.setPassword(passwordTest);
+        assertEquals(passwordTest, instance.getPassword());
     }
 
     /**
@@ -128,11 +116,9 @@ public class UserAccountTest {
     @Test
     public void testSetEmail() {
         System.out.println("setEmail");
-        String email = "";
-        UserAccount instance = new UserAccount();
-        instance.setEmail(email);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String emailTest = "test@hell.com";
+        instance.setEmail(emailTest);
+        assertEquals(emailTest, instance.getEmail());
     }
 
     /**
@@ -141,12 +127,22 @@ public class UserAccountTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        UserAccount instance = new UserAccount();
-        String expResult = "";
-        String result = instance.toString();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        long idTest = 666L;
+        String loginTest = "satan";
+        String passwordTest = "@crazY_666";
+        String emailTest = "satan666@hell.com";
+        
+        String expResult = "UsersDataSet{" +
+                "id=" + idTest +
+                ", login='" + loginTest + '\'' +
+                ", password='" + passwordTest + '\"' +
+                ", E-Mail='" + emailTest + '\"' +
+                '}';
+        
+        instance.setId(idTest);
+        instance.setLogin(loginTest);
+        instance.setPassword(passwordTest);
+        instance.setEmail(emailTest);
+        assertEquals(expResult, instance.toString());
     }
-    
 }
