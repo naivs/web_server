@@ -1,0 +1,9 @@
+<class name="resources.HBNParametersResource">
+<hibernate_show_sql>true</hibernate_show_sql>
+<hibernate_hbm2ddl_auto>update</hibernate_hbm2ddl_auto>
+<dialect>org.hibernate.dialect.MySQLDialect</dialect>
+<driver>com.mysql.jdbc.Driver</driver>
+<url>jdbc:mysql://localhost:3306/web</url>
+<username>root</username>
+<password>root</password>
+</class>

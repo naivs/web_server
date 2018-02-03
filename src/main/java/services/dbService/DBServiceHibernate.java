@@ -18,7 +18,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.internal.SessionFactoryImpl;
 import org.hibernate.service.ServiceRegistry;
-import services.dbService.DBService;
+import resources.HBNParametersResource;
 
 /**
  *
@@ -26,12 +26,11 @@ import services.dbService.DBService;
  */
 public class DBServiceHibernate implements DBService {
 
-    private static final String hibernate_show_sql = "true";
-    private static final String hibernate_hbm2ddl_auto = "update";
-
+    private final HBNParametersResource hbnParameters;
     private final SessionFactory sessionFactory;
 
-    public DBServiceHibernate() {
+    public DBServiceHibernate(HBNParametersResource hbnParameters) {
+        this.hbnParameters = hbnParameters;
         Configuration configuration = getMySqlConfiguration();
         sessionFactory = createSessionFactory(configuration);
     }
@@ -40,13 +39,13 @@ public class DBServiceHibernate implements DBService {
         Configuration configuration = new Configuration();
         configuration.addAnnotatedClass(UserAccount.class);
 
-        configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-        configuration.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-        configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/web");
-        configuration.setProperty("hibernate.connection.username", "root");
-        configuration.setProperty("hibernate.connection.password", "root");
-        configuration.setProperty("hibernate.show_sql", hibernate_show_sql);
-        configuration.setProperty("hibernate.hbm2ddl.auto", hibernate_hbm2ddl_auto);
+        configuration.setProperty("hibernate.dialect", hbnParameters.getDialect());
+        configuration.setProperty("hibernate.connection.driver_class", hbnParameters.getDriver());
+        configuration.setProperty("hibernate.connection.url", hbnParameters.getUrl());
+        configuration.setProperty("hibernate.connection.username", hbnParameters.getUsername());
+        configuration.setProperty("hibernate.connection.password", hbnParameters.getPassword());
+        configuration.setProperty("hibernate.show_sql", hbnParameters.getHibernate_show_sql());
+        configuration.setProperty("hibernate.hbm2ddl.auto", hbnParameters.getHibernate_hbm2ddl_auto());
         return configuration;
     }
     

@@ -1,11 +1,11 @@
 package services.dbService;
 
+import services.dbService.connections.MySQLConnection;
 import services.dbService.dao.UsersDAOPattern;
 import accounts.UserAccount;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import services.dbService.DBService;
 
 public class DBServicePattern implements DBService {
     private final Connection connection;

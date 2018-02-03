@@ -14,8 +14,13 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import resources.HBNParametersResource;
+import resources.HttpServerParametersResource;
 import services.accountService.AccountService;
 import services.dbService.DBService;
+import services.server.HttpServer;
+import services.xml.XMLService;
+import services.xml.sax.SaxService;
 import servlets.AdminServlet;
 import servlets.RootRequestsServlet;
 import servlets.MirrorRequestServlet;
@@ -27,19 +32,10 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        int port;
+        XMLService xmlService = new SaxService();
         
-        if(args.length == 0) {
-            System.out.println("Server will start on default port: 8080");
-            port = 8080;
-            System.out.println(Arrays.toString(args));
-        } else {
-            System.out.println("Server will start on port: " + args[0]);
-            port = Integer.parseInt(args[0]);
-        }
-        
-        Server server = new Server(port);
-        DBService dbService = new DBServiceHibernate();
+        HttpServer httpServer = new HttpServer((HttpServerParametersResource) xmlService.readXML("resources/httpServerConfig.xml"));
+        DBService dbService = new DBServiceHibernate((HBNParametersResource) xmlService.readXML("resources/hibernateConfig.xml"));
         dbService.printConnectInfo();
         AccountService accountService = new AccountServiceImpl(10, dbService);
         
@@ -60,10 +56,10 @@ public class Main {
 
         HandlerList handlers = new HandlerList();
         handlers.setHandlers(new Handler[]{resource_handler, context});
-        server.setHandler(handlers);
+        httpServer.setHandler(handlers);
 
-        server.start();
+        httpServer.start();
         System.out.println("Server started");
-        server.join();
+        httpServer.join();
     }
 }
