@@ -7,12 +7,13 @@ package services.dbService;
 
 import accounts.UserAccount;
 import java.util.ArrayList;
+import services.Service;
 
 /**
  *
  * @author Ivan Naumov
  */
-public interface DBService {
+public interface DBService extends Service {
     
     public UserAccount getUser(long id) throws DBException;
     

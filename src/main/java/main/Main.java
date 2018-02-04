@@ -3,63 +3,47 @@ package main;
 import services.accountService.AccountServiceImpl;
 import beans.AccountServiceController;
 import beans.AccountServiceControllerMBean;
+import beans.ResourceServerController;
 import services.dbService.DBServiceHibernate;
 import java.lang.management.ManagementFactory;
-import java.util.Arrays;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
-import org.eclipse.jetty.server.Handler;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.HandlerList;
-import org.eclipse.jetty.server.handler.ResourceHandler;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
 import resources.HBNParametersResource;
-import resources.HttpServerParametersResource;
+import resources.ResourceServer;
+import services.ServiceManager;
 import services.accountService.AccountService;
 import services.dbService.DBService;
 import services.server.HttpServer;
-import services.xml.XMLService;
-import services.xml.sax.SaxService;
-import servlets.AdminServlet;
-import servlets.RootRequestsServlet;
-import servlets.MirrorRequestServlet;
-import servlets.SigninServlet;
-import servlets.SignupServlet;
-import servlets.WebSocketChatServlet;
+import services.vfs.VFSImpl;
+import services.vfs.VFSService;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        XMLService xmlService = new SaxService();
+        ServiceManager serviceManager = new ServiceManager();
+
+        VFSService vfsService = new VFSImpl("./");
+        serviceManager.addService(VFSService.class.getName(), vfsService);
+        ResourceServer resourceServer = new ResourceServer(vfsService);
+        serviceManager.addService(ResourceServer.class.getName(), resourceServer);
         
-        HttpServer httpServer = new HttpServer((HttpServerParametersResource) xmlService.readXML("resources/httpServerConfig.xml"));
-        DBService dbService = new DBServiceHibernate((HBNParametersResource) xmlService.readXML("resources/hibernateConfig.xml"));
+//        XMLService xmlService = new SaxService();
+//        serviceManager.addService(XMLService.class.getName(), xmlService);
+        DBService dbService = new DBServiceHibernate((HBNParametersResource) resourceServer.getResource("./resources/config/hibernateConfig.xml"));
         dbService.printConnectInfo();
+        serviceManager.addService(DBService.class.getName(), dbService);
         AccountService accountService = new AccountServiceImpl(10, dbService);
+        serviceManager.addService(AccountService.class.getName(), accountService);
         
-        AccountServiceControllerMBean accountController = new AccountServiceController(accountService);
         MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+        AccountServiceControllerMBean accountController = new AccountServiceController(accountService);
         mbs.registerMBean(accountController, new ObjectName("SessionsManager:type=AccountServiceController"));
+        ResourceServerController resourceController = new ResourceServerController(resourceServer);
+        mbs.registerMBean(resourceController, new ObjectName("Admin:type=ResourceServerController"));
 
-        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        context.addServlet(new ServletHolder(new RootRequestsServlet(accountService)), "/");
-        context.addServlet(new ServletHolder(new SignupServlet(accountService)), "/signup");
-        context.addServlet(new ServletHolder(new SigninServlet(accountService)), "/signin");
-        context.addServlet(new ServletHolder(new MirrorRequestServlet()), "/mirror");
-        context.addServlet(new ServletHolder(new WebSocketChatServlet()), "/chat");
-        context.addServlet(new ServletHolder(new AdminServlet(accountService)), AdminServlet.SERVLET_URL);
-
-        ResourceHandler resource_handler = new ResourceHandler();
-        resource_handler.setResourceBase("resources/pages/");
-
-        HandlerList handlers = new HandlerList();
-        handlers.setHandlers(new Handler[]{resource_handler, context});
-        httpServer.setHandler(handlers);
-
+        HttpServer httpServer = new HttpServer(serviceManager);
         httpServer.start();
-        System.out.println("Server started");
         httpServer.join();
     }
 }

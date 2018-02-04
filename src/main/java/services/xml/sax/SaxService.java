@@ -10,13 +10,14 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.SAXException;
+import services.Service;
 import services.xml.XMLService;
 
 /**
  *
  * @author ivan
  */
-public class SaxService implements XMLService {
+public class SaxService implements XMLService, Service {
 
     @Override
     @SuppressWarnings("CallToPrintStackTrace")

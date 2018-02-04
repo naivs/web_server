@@ -9,7 +9,7 @@ package resources;
  *
  * @author ivan
  */
-public class TestResource {
+public class TestResource implements Resource {
 
     private String name;
     private int age;

@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package services.xml;
-
-import services.Service;
+package services;
 
 /**
  *
  * @author ivan
  */
-public interface XMLService extends Service {
+public interface Service {
     
-    public Object readXML(String xmlFile);
 }

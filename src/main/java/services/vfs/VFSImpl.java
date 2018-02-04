@@ -29,12 +29,14 @@ public class VFSImpl implements VFSService {
 
     @Override
     public boolean isDirrectory(String path) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        File file = new File(path);
+        return file.isDirectory();
     }
 
     @Override
     public String getAbsolutePath(String file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        File f = new File(file);
+        return f.getAbsolutePath();
     }
 
     @Override
@@ -73,7 +75,7 @@ public class VFSImpl implements VFSService {
                     files.add(subFile);
                 }
             }
-            return files.poll().getAbsolutePath();
+            return files.poll().getPath();
         }
     }
 }

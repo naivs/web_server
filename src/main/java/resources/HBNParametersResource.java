@@ -9,7 +9,7 @@ package resources;
  *
  * @author ivan
  */
-public class HBNParametersResource {
+public class HBNParametersResource implements Resource {
 
     private final String hibernate_show_sql;
     private final String hibernate_hbm2ddl_auto;

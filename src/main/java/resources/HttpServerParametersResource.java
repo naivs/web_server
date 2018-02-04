@@ -9,7 +9,7 @@ package resources;
  *
  * @author ivan
  */
-public class HttpServerParametersResource {
+public class HttpServerParametersResource implements Resource {
 
     private final int port;
 

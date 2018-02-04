@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package services.xml;
-
-import services.Service;
+package beans;
 
 /**
  *
  * @author ivan
  */
-public interface XMLService extends Service {
+public interface ResourceServerControllerMBean {
     
-    public Object readXML(String xmlFile);
+    String getName();
+    
+    int getAge();
 }

@@ -6,12 +6,13 @@
 package services.vfs;
 
 import java.util.Iterator;
+import services.Service;
 
 /**
  *
  * @author Ivan Naumov
  */
-public interface VFSService {
+public interface VFSService extends Service {
     
     boolean ifExists(String path);
     

@@ -6,12 +6,13 @@
 package services.accountService;
 
 import accounts.UserAccount;
+import services.Service;
 
 /**
  *
  * @author Ivan Naumov
  */
-public interface AccountService {
+public interface AccountService extends Service {
     
     void addNewUser(String login, String password, String email);
     
