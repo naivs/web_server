@@ -6,6 +6,7 @@
 package services.server;
 
 import javax.servlet.http.HttpServlet;
+import logger.MyLogger;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -48,6 +49,7 @@ public class HttpServer {
         server.setStopAtShutdown(true);
         server.start();
         System.out.println("Server started");
+        MyLogger.instance().log(MyLogger.INFO, "Server started");
     }
 
     public void join() throws Exception {

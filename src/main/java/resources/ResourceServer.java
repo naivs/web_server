@@ -8,6 +8,7 @@ package resources;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import logger.MyLogger;
 import services.Service;
 import services.vfs.VFSImpl;
 import services.vfs.VFSService;
@@ -46,11 +47,13 @@ public class ResourceServer implements Service {
     }
     
     public Resource getResource(String name) {
+        MyLogger.instance().log(MyLogger.INFO, "Trying to get resource: " + name);
         return resources.get(name);
     }
     
     public void loadResource(String path) {
         resources.put(path, (Resource) xmlService.readXML(path));
         System.out.println("Resource loaded: " + path);
+        MyLogger.instance().log(MyLogger.INFO, "Resource loaded: " + path);
     }
 }
