@@ -19,6 +19,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.internal.SessionFactoryImpl;
 import org.hibernate.service.ServiceRegistry;
 import resources.HBNParametersResource;
+import resources.ResourceServer;
 
 /**
  *
@@ -29,8 +30,8 @@ public class DBServiceHibernate implements DBService {
     private final HBNParametersResource hbnParameters;
     private final SessionFactory sessionFactory;
 
-    public DBServiceHibernate(HBNParametersResource hbnParameters) {
-        this.hbnParameters = hbnParameters;
+    public DBServiceHibernate() {
+        this.hbnParameters = (HBNParametersResource) ResourceServer.instance().getResource("resources/config/hibernateConfig.xml");
         Configuration configuration = getMySqlConfiguration();
         sessionFactory = createSessionFactory(configuration);
     }

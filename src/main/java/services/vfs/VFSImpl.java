@@ -54,14 +54,19 @@ public class VFSImpl implements VFSService {
         return new FileIterator(startDir);
     }
 
+    @Override
+    public Iterator<String> getIterator() {
+        return new FileIterator("");
+    }
+
     private class FileIterator implements Iterator<String> {
 
         private Queue<File> files = new LinkedList<>();
-        
+
         public FileIterator(String path) {
             files.add(new File(root + path));
         }
-        
+
         @Override
         public boolean hasNext() {
             return !files.isEmpty();
@@ -70,7 +75,7 @@ public class VFSImpl implements VFSService {
         @Override
         public String next() {
             File file = files.peek();
-            if(file.isDirectory()) {
+            if (file.isDirectory()) {
                 for (File subFile : file.listFiles()) {
                     files.add(subFile);
                 }

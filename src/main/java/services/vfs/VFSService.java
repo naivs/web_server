@@ -25,4 +25,6 @@ public interface VFSService extends Service {
     String getUTF8Text(String file);
     
     Iterator<String> getIterator(String startDir);
+    
+    Iterator<String> getIterator();
 }

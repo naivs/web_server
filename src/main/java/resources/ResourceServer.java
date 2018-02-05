@@ -9,38 +9,48 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import services.Service;
+import services.vfs.VFSImpl;
 import services.vfs.VFSService;
+import services.xml.XMLService;
+import services.xml.sax.SaxService;
 
 /**
  *
  * @author ivan
  */
 public class ResourceServer implements Service {
-
+            
+    private static ResourceServer instance;
     private final Map<String, Resource> resources;
+    private final XMLService xmlService;
 
-    public ResourceServer(VFSService vfsService) {
+    private ResourceServer(VFSService vfsService) {
         resources = new HashMap<>();
-
+        xmlService = new SaxService();
+        
         Iterator iterator = vfsService.getIterator("resources/config/");
         while (iterator.hasNext()) {
-            String absolutePath = iterator.next().toString();
-            if (!vfsService.isDirrectory(absolutePath)) {
-                resources.put(absolutePath, ResourceFactory.instance().getResource(absolutePath));
-                System.out.println("Resource added: " + absolutePath);
+            String path = iterator.next().toString();
+            if (!vfsService.isDirrectory(path)) {
+                resources.put(path, (Resource) xmlService.readXML(path));
+                System.out.println("Resource added: " + path);
             }
         }
     }
 
+    public static ResourceServer instance() {
+        if (instance == null) {
+            instance = new ResourceServer(new VFSImpl(""));
+        }
+        return instance;
+    }
+    
     public Resource getResource(String name) {
         return resources.get(name);
     }
-
-    public String getName() {
-        return ((TestResource) resources.get("resources/config/testResource.xml")).getName();
-    }
-
-    public int getAge() {
-        return ((TestResource) resources.get("resources/config/testResource.xml")).getAge();
+    
+    public void loadResource(String path) {
+        resources.put(path, (Resource) xmlService.readXML(path));
+        System.out.println("Resource loaded: " + path);
     }
 }

@@ -6,26 +6,23 @@
 package beans;
 
 import resources.ResourceServer;
+import resources.TestResource;
 
 /**
  *
  * @author ivan
  */
 public class ResourceServerController implements ResourceServerControllerMBean {
-    
-    private final ResourceServer resourceServer;
 
-    public ResourceServerController(ResourceServer resourceServer) {
-        this.resourceServer = resourceServer;
-    }
-    
     @Override
     public String getName() {
-        return resourceServer.getName();
+        TestResource testResource = (TestResource) ResourceServer.instance().getResource("resource.xml");
+        return testResource.getName();
     }
 
     @Override
     public int getAge() {
-        return resourceServer.getAge();
+        TestResource testResource = (TestResource) ResourceServer.instance().getResource("resource.xml");
+        return testResource.getAge();
     }
 }

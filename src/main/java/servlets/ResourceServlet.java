@@ -10,6 +10,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import resources.ResourceServer;
+import templater.PageGenerator;
 
 /**
  *
@@ -17,21 +19,27 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ResourceServlet extends HttpServlet {
 
-    public static final String SERVLET_URL = "/resource";
-    
-    public ResourceServlet() {
-        
-    }
+    public static final String SERVLET_URL = "/resources";
 
     @Override
     public void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-
+        //return static page
+        response.getWriter().println(PageGenerator.instance().getPage("resource.html"));
     }
 
     @Override
     public void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
+        String resource = request.getParameter("path");
+        System.out.println("Requested resource: " + resource);
+
+        if (resource == null) {
+            response.setContentType("text/html;charset=utf-8");
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        } else {
+            ResourceServer.instance().loadResource(resource);
+        }
     }
 }

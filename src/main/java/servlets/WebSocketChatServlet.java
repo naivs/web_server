@@ -17,6 +17,7 @@ import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
  */
 @WebServlet(name = "WebSocketChatServlet", urlPatterns = {"/chat"})
 public class WebSocketChatServlet extends WebSocketServlet {
+    
     private final static int LOGOUT_TIME = 10 * 60 * 1000;
     private final ChatService chatService;
 
