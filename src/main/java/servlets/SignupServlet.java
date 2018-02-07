@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import accounts.UserAccount;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -40,13 +41,11 @@ public class SignupServlet extends HttpServlet {
         response.setContentType("text/html;charset=utf-8");
 
         String login = request.getParameter("login");
-
         if (accountService.isLogin(login)) {
             response.setStatus(HttpServletResponse.SC_CONFLICT);
             response.getWriter().println(String.format("%s is already registered!", login));
             return;
         }
-
         String password = request.getParameter("password");
         String email = request.getParameter("email");
 
@@ -54,6 +53,17 @@ public class SignupServlet extends HttpServlet {
             email = login + "@default.com";
         }
         accountService.addNewUser(login, password, email);
+
+        String sessionId = request.getSession().getId();
+        UserAccount userAccount = accountService.getUserBySessionId(sessionId);
+        if (userAccount != null) {
+            String currentLogin = userAccount.getLogin();
+            if (currentLogin.equals("root")) {
+                response.getWriter().println(PageGenerator.instance().getPage("admin.html"));
+                response.setContentType("text/html;charset=utf-8");
+                response.setStatus(HttpServletResponse.SC_OK);
+            }
+        }
 
         response.setStatus(HttpServletResponse.SC_OK);
         response.getWriter().println("Registered");

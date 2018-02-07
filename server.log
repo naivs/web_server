@@ -1,0 +1,35 @@
+Wed Feb 07 23:22:07 MSK 2018 INFO Trying to get resource: resources/config/hibernateConfig.xml
+Wed Feb 07 23:22:07 MSK 2018 INFO HCANN000001: Hibernate Commons Annotations {4.0.5.Final}
+Wed Feb 07 23:22:07 MSK 2018 INFO HHH000412: Hibernate Core {4.3.10.Final}
+Wed Feb 07 23:22:07 MSK 2018 INFO HHH000206: hibernate.properties not found
+Wed Feb 07 23:22:07 MSK 2018 INFO HHH000021: Bytecode provider name : javassist
+Wed Feb 07 23:22:07 MSK 2018 WARN HHH000402: Using Hibernate built-in connection pool (not for production use!)
+Wed Feb 07 23:22:07 MSK 2018 INFO HHH000401: using driver [com.mysql.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/web]
+Wed Feb 07 23:22:07 MSK 2018 INFO HHH000046: Connection properties: {user=root, password=****}
+Wed Feb 07 23:22:07 MSK 2018 INFO HHH000006: Autocommit mode: false
+Wed Feb 07 23:22:07 MSK 2018 INFO HHH000115: Hibernate connection pool size: 20 (min=1)
+Wed Feb 07 23:22:07 MSK 2018 INFO HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+Wed Feb 07 23:22:07 MSK 2018 INFO HHH000399: Using default transaction strategy (direct JDBC transactions)
+Wed Feb 07 23:22:07 MSK 2018 INFO HHH000397: Using ASTQueryTranslatorFactory
+Wed Feb 07 23:22:08 MSK 2018 INFO HHH000228: Running hbm2ddl schema update
+Wed Feb 07 23:22:08 MSK 2018 INFO HHH000102: Fetching database metadata
+Wed Feb 07 23:22:08 MSK 2018 INFO HHH000396: Updating schema
+Wed Feb 07 23:22:08 MSK 2018 INFO HHH000261: Table found: web.users
+Wed Feb 07 23:22:08 MSK 2018 INFO HHH000037: Columns: [password, id, login, email]
+Wed Feb 07 23:22:08 MSK 2018 INFO HHH000108: Foreign keys: []
+Wed Feb 07 23:22:08 MSK 2018 INFO HHH000126: Indexes: [uk_ow0gan20590jrb00upg3va2fn, uk_r53o2ojjw4fikudfnsuuga336, uk_6dotkott2kjsp8vw4d0m25fb7, primary]
+Wed Feb 07 23:22:08 MSK 2018 INFO HHH000232: Schema update complete
+Wed Feb 07 23:22:08 MSK 2018 INFO Trying to get resource: resources/config/httpServerConfig.xml
+Wed Feb 07 23:22:08 MSK 2018 INFO Server started
+Wed Feb 07 23:22:19 MSK 2018 WARN SQL Error: 1062, SQLState: 23000
+Wed Feb 07 23:22:19 MSK 2018 ERROR Duplicate entry '' for key 'UK_6dotkott2kjsp8vw4d0m25fb7'
+Wed Feb 07 23:22:19 MSK 2018 WARN SQL Warning Code: 1062, SQLState: 23000
+Wed Feb 07 23:22:19 MSK 2018 WARN Duplicate entry '' for key 'UK_6dotkott2kjsp8vw4d0m25fb7'
+Wed Feb 07 23:24:33 MSK 2018 WARN SQL Error: 1062, SQLState: 23000
+Wed Feb 07 23:24:33 MSK 2018 ERROR Duplicate entry '' for key 'UK_6dotkott2kjsp8vw4d0m25fb7'
+Wed Feb 07 23:24:33 MSK 2018 WARN SQL Warning Code: 1062, SQLState: 23000
+Wed Feb 07 23:24:33 MSK 2018 WARN Duplicate entry '' for key 'UK_6dotkott2kjsp8vw4d0m25fb7'
+Wed Feb 07 23:24:45 MSK 2018 WARN SQL Error: 1062, SQLState: 23000
+Wed Feb 07 23:24:45 MSK 2018 ERROR Duplicate entry '' for key 'UK_6dotkott2kjsp8vw4d0m25fb7'
+Wed Feb 07 23:24:45 MSK 2018 WARN SQL Warning Code: 1062, SQLState: 23000
+Wed Feb 07 23:24:45 MSK 2018 WARN Duplicate entry '' for key 'UK_6dotkott2kjsp8vw4d0m25fb7'
