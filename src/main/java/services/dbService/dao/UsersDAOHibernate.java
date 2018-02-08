@@ -41,4 +41,8 @@ public class UsersDAOHibernate {
     public long insertUser(UserAccount userAccount) throws HibernateException {
         return (Long) session.save(userAccount);
     }
+    
+    public void clean() {
+        session.createQuery("delete from users").executeUpdate();
+    }
 }

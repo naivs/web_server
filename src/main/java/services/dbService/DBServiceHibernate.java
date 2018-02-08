@@ -107,7 +107,12 @@ public class DBServiceHibernate implements DBService {
 
     @Override
     public void cleanUp() throws DBException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        UsersDAOHibernate dao = new UsersDAOHibernate(session);
+        transaction.commit();
+        dao.clean();
+        session.close();
     }
 
     @Override
